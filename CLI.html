@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomName随机姓名/编号抽取程序CLI版 - 使用简介</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+            display: inline-block;
+        }
+        
+        h3 {
+            color: #3498db;
+            margin: 20px 0 10px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .code-snippet {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 15px 0;
+        }
+        
+        .mode-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .mode-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .mode-number {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .demo-terminal {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 20px 0;
+            min-height: 200px;
+        }
+        
+        .demo-line {
+            margin: 5px 0;
+        }
+        
+        .demo-prompt {
+            color: #f8f8f2;
+        }
+        
+        .demo-input {
+            color: #a6e22e;
+        }
+        
+        .demo-output {
+            color: #66d9ef;
+        }
+        
+        .demo-error {
+            color: #f92672;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4CAF50 0%, #2196F3 100%);
+            color: white;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #4CAF50;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .cta-button:hover {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            border-top: 1px solid #eaeaea;
+            margin-top: 40px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .database-example {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        
+        .database-example pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .nav-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #f8f9fa;
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+			<h1>RandomName</h1>
+            <h1>随机姓名/编号抽取程序CLI版</h1>
+            <p class="subtitle">一个功能强大、易于使用的Python程序，专门用于随机抽取姓名和编号。适用于课堂点名、活动抽奖、随机分组等多种场景。</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">种抽取模式</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label">种编码支持</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">中文界面</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div>
+                <div class="card">
+                    <h2>程序特色</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h4>五种抽取模式</h4>
+                            <p>单人抽取、性别筛选、多人抽取、单编号抽取、多编号抽取，满足各种需求。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🔤</div>
+                            <h4>智能编码识别</h4>
+                            <p>自动检测UTF-8和GBK编码，无需手动指定编码格式。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">👥</div>
+                            <h4>性别筛选功能</h4>
+                            <p>支持按性别条件筛选抽取，适用于需要平衡男女比例的场景。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🚨</div>
+                            <h4>完善错误处理</h4>
+                            <p>对文件不存在、编码错误、数据格式问题等提供明确的错误提示。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🔄</div>
+                            <h4>循环交互界面</h4>
+                            <p>友好的中文交互界面，支持连续抽取和模式切换。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h4>高效稳定</h4>
+                            <p>基于Python标准库，无需额外依赖，运行稳定高效。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>数据库格式</h2>
+                    
+                    <div class="database-example">
+                        <p>程序使用纯文本数据库文件，格式简单明了：</p>
+                        <pre>1,张三,男
+2,李四,男
+3,王芳,女
+4,刘洋,男
+5,陈静,女</pre>
+                        <p><strong>要求：</strong>使用英文逗号分隔，性别列必须为"男"或"女"，文件编码为UTF-8或GBK。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="card">
+                    <h2>抽取模式</h2>
+                    
+                    <div class="mode-showcase">
+                        <div class="mode-item">
+                            <span class="mode-number">1</span>
+                            <strong>单人抽取模式</strong>
+                            <p>随机抽取一个姓名，适合课堂点名等场景。</p>
+                        </div>
+                        
+                        <div class="mode-item">
+                            <span class="mode-number">2</span>
+                            <strong>性别选择模式</strong>
+                            <p>按性别筛选抽取，可指定男性、女性或全部。</p>
+                        </div>
+                        
+                        <div class="mode-item">
+                            <span class="mode-number">3</span>
+                            <strong>多人抽取模式</strong>
+                            <p>一次性抽取多个姓名，适合分组或抽奖。</p>
+                        </div>
+                        
+                        <div class="mode-item">
+                            <span class="mode-number">4</span>
+                            <strong>单编号抽取模式</strong>
+                            <p>随机抽取一个编号，保护隐私的同时实现随机选择。</p>
+                        </div>
+                        
+                        <div class="mode-item">
+                            <span class="mode-number">5</span>
+                            <strong>多编号抽取模式</strong>
+                            <p>一次性抽取多个编号，适用于匿名抽样。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="warning">
+                        <strong>通用操作：</strong> 在任何模式下输入"exit"可退出程序，输入"quit"可返回主菜单。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>程序演示</h2>
+            
+            <div class="demo-terminal">
+                <div class="demo-line">
+                    <span class="demo-prompt">$</span> <span class="demo-input">python3 ./code/main.py</span>
+                </div>
+                <div class="demo-line">
+                    <br>
+                    1.单人抽取模式<br>
+                    2.性别选择模式<br>
+                    3.多人抽取模式<br>
+                    4.单编号抽取模式<br>
+                    5.多编号抽取模式<br>
+                    请输入您选择的模式编号或输入"exit"退出运行: <span class="demo-input">3</span>
+                </div>
+                <div class="demo-line">
+                    <br>
+                    请选择抽取人数<br>
+                    或输入"exit"退出运行"quit"重新选择模式: <span class="demo-input">2</span>
+                </div>
+                <div class="demo-line">
+                    <br>
+                    <span class="demo-output">张三 李四</span><br>
+                    <br>
+                </div>
+                <div class="demo-line">
+                    请选择抽取人数<br>
+                    或输入"exit"退出运行"quit"重新选择模式: <span class="demo-input">e</span>
+                </div>
+                <div class="demo-line">
+                    <br>
+                    <span class="demo-error">error:请输入整数!!</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>应用场景</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>课堂教学</h4>
+                    <p>随机点名提问，提高学生参与度和注意力。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>活动抽奖</h4>
+                    <p>公平随机抽取获奖者，避免人为操作。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>随机分组</h4>
+                    <p>快速创建随机小组，促进团队协作。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>值班安排</h4>
+                    <p>随机分配值班人员，确保公平性。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>匿名调查</h4>
+                    <p>随机选择调查对象，保护隐私。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>游戏活动</h4>
+                    <p>随机选择参与者或分配任务。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2 style="color: white;">立即开始使用</h2>
+            <p style="color: rgba(255,255,255,0.9);">只需几分钟即可完成配置，开始享受随机抽取的便利！</p>
+            <a href="https://github.com/Zhao-Yidan1982/RandomName" class="cta-button" target="_blank">获取程序代码 by github</a>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-button">返回主页</a>
+            <a href="GUI.html" class="nav-button">查看GUI版本</a>
+        </div>
+        
+        <footer>
+            <p>本网页由AI生成仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
