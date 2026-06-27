@@ -338,9 +338,9 @@
             margin-top: 18px;
             transition: all 0.3s ease;
             border: 2px solid transparent;
-            cursor: not-allowed;
-            opacity: 0.8;
-            pointer-events: none;
+            cursor: pointer;          /* 改为可点击 */
+            opacity: 0.9;
+            pointer-events: auto;     /* 允许点击 */
         }
 
         .cta-button:hover {
@@ -651,7 +651,7 @@
         <div class="cta-section">
             <h2 style="color: white;">GUI 版本已停止开发</h2>
             <p style="color: rgba(255,255,255,0.85);">感谢您关注此版本，建议使用 CLI 版本或等待后续替代方案。</p>
-            <span class="cta-button">已停止开发</span>
+            <a href="https://share.fnnas.net/s/390775d8b3e147928c" class="cta-button" target="_blank">下载源代码（已停止）</a>
         </div>
 
         <div class="nav-buttons">

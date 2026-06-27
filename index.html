@@ -52,6 +52,7 @@
             margin-bottom: 10px;
             background: linear-gradient(90deg, #4CAF50, #2196F3);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -118,12 +119,12 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
-        /* ===== GUI 卡片 — 灰色已停用风格 ===== */
+        /* ===== GUI 卡片 — 灰色已停用风格（可点击） ===== */
         .card-gui {
             border-top: 4px solid #9e9e9e;
             opacity: 0.85;
             filter: grayscale(0.3);
-            cursor: default;
+            cursor: pointer;  /* 改为可点击 */
         }
 
         .card-gui:hover {
@@ -161,12 +162,13 @@
             margin-bottom: 20px;
         }
 
+        /* 按钮可点击，保留灰色 */
         .card-gui .cta-button {
             color: #9e9e9e;
             border: 2px solid #9e9e9e;
-            cursor: not-allowed;
-            opacity: 0.7;
-            pointer-events: none;
+            cursor: pointer;
+            opacity: 0.8;
+            pointer-events: auto;
         }
 
         .card-gui .cta-button:hover {
@@ -384,8 +386,8 @@
         </header>
 
         <div class="main-content">
-            <!-- ============ GUI 卡片 — 灰色已停用 ============ -->
-            <div class="card card-gui">
+            <!-- ============ GUI 卡片 — 灰色已停用，但可点击 ============ -->
+            <div class="card card-gui" onclick="window.location.href='GUI.html'">
                 <div class="discontinued-badge">已停止</div>
 
                 <div>
@@ -404,7 +406,7 @@
                     </div>
                 </div>
 
-                <span class="cta-button gui-button">已停止开发</span>
+                <span class="cta-button gui-button">已停止开发（点击查看）</span>
             </div>
 
             <!-- ============ CLI 卡片 — 保持原蓝色 ============ -->
@@ -441,7 +443,8 @@
         </div>
 
         <div class="nav-buttons">
-            <span class="nav-button nav-disabled">GUI版本（已停止）</span>
+            <!-- 改为可点击链接 -->
+            <a href="GUI.html" class="nav-button">GUI版本（已停止）</a>
             <a href="CLI.html" class="nav-button">前往CLI版本</a>
         </div>
 
