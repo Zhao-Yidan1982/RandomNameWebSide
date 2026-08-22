@@ -324,11 +324,11 @@
         <header>
 			<h1>RandomName</h1>
             <h1>随机姓名/编号抽取程序CLI版</h1>
-            <p class="subtitle">一个功能强大、易于使用的Python程序，专门用于随机抽取姓名和编号。适用于课堂点名、活动抽奖、随机分组等多种场景。</p>
+            <p class="subtitle">一个使用 Python 标准库编写的中文命令行随机抽取工具，支持姓名、编号、性别筛选和动态权重抽取。</p>
             
             <div class="hero-stats">
                 <div class="stat-item">
-                    <span class="stat-number">5</span>
+                    <span class="stat-number">6</span>
                     <span class="stat-label">种抽取模式</span>
                 </div>
                 <div class="stat-item">
@@ -350,20 +350,20 @@
                     <div class="features-grid">
                         <div class="feature-card">
                             <div class="feature-icon">🎯</div>
-                            <h4>五种抽取模式</h4>
-                            <p>单人抽取、性别筛选、多人抽取、单编号抽取、多编号抽取，满足各种需求。</p>
+                            <h4>六种已实现模式</h4>
+                            <p>支持单人或多人姓名、单人或多人编号、性别筛选姓名和动态权重姓名抽取。</p>
                         </div>
                         
                         <div class="feature-card">
                             <div class="feature-icon">🔤</div>
                             <h4>智能编码识别</h4>
-                            <p>自动检测UTF-8和GBK编码，无需手动指定编码格式。</p>
+                            <p>按 UTF-8、GBK 顺序尝试读取配置和数据库文本，无需手动指定编码。</p>
                         </div>
                         
                         <div class="feature-card">
                             <div class="feature-icon">👥</div>
                             <h4>性别筛选功能</h4>
-                            <p>支持按性别条件筛选抽取，适用于需要平衡男女比例的场景。</p>
+                            <p>单人性别选择姓名抽取默认读取全部，可选择男性或女性。</p>
                         </div>
                         
                         <div class="feature-card">
@@ -375,13 +375,13 @@
                         <div class="feature-card">
                             <div class="feature-icon">🔄</div>
                             <h4>循环交互界面</h4>
-                            <p>友好的中文交互界面，支持连续抽取和模式切换。</p>
+                            <p>抽取模式中输入 quit 返回主菜单，输入 exit 退出程序，主菜单输入 about 查看版本。</p>
                         </div>
                         
                         <div class="feature-card">
                             <div class="feature-icon">⚡</div>
                             <h4>高效稳定</h4>
-                            <p>基于Python标准库，无需额外依赖，运行稳定高效。</p>
+                            <p>基于 Python 标准库，无需第三方依赖，并支持按权重动态降低已抽中人员的后续概率。</p>
                         </div>
                     </div>
                 </div>
@@ -391,13 +391,34 @@
                     
                     <div class="database-example">
                         <p>程序使用纯文本数据库文件，格式简单明了：</p>
-                        <pre>1,张三,男
-2,李四,男
-3,王芳,女
-4,刘洋,男
-5,陈静,女</pre>
-                        <p><strong>要求：</strong>使用英文逗号分隔，性别列必须为"男"或"女"，文件编码为UTF-8或GBK。</p>
+                        <pre>1,小明,男,100
+2,小芳,女,100
+3,张三,男,90</pre>
+                        <p><strong>要求：</strong>数据库是无表头文本，每行一条记录，字段使用英文半角逗号分隔。性别必须为"男"或"女"，编号和权重需能转换为整数。</p>
                     </div>
+                </div>
+
+                <div class="card">
+                    <h2>启动与配置</h2>
+                    <p>请在项目根目录运行，启动时可选择数据库名称，默认使用 <strong>default</strong>。配置和数据文件分别位于 <strong>config/</strong> 与 <strong>nmls/</strong>，文件名需要相同。</p>
+                    <div class="code-snippet"><pre>python3 main.py
+
+config/class.json
+nmls/class</pre></div>
+                    <p>配置示例：</p>
+                    <div class="code-snippet"><pre>{
+    "IncludeNumber": true,
+    "NumberColumn": 0,
+    "IncludeName": true,
+    "NameColumn": 1,
+    "IncludeSex": true,
+    "SexColumn": 2,
+    "IncludeWeight": true,
+    "WeightColumn": 3,
+    "RowStart": 0,
+    "RowEnd": 6
+}</pre></div>
+                    <p><strong>说明：</strong><code>*Column</code> 和行号从 0 开始，<code>RowEnd</code> 包含在范围内。多人姓名或编号输入正整数，直接回车相当于 1 人；动态权重要求权重非负且总权重大于 0。</p>
                 </div>
             </div>
             
@@ -408,37 +429,43 @@
                     <div class="mode-showcase">
                         <div class="mode-item">
                             <span class="mode-number">1</span>
-                            <strong>单人抽取模式</strong>
-                            <p>随机抽取一个姓名，适合课堂点名等场景。</p>
+                            <strong>单人姓名抽取</strong>
+                            <p>每次随机抽取 1 个姓名。</p>
                         </div>
                         
                         <div class="mode-item">
                             <span class="mode-number">2</span>
-                            <strong>性别选择模式</strong>
-                            <p>按性别筛选抽取，可指定男性、女性或全部。</p>
+                            <strong>多人姓名抽取</strong>
+                            <p>输入人数后一次抽取多个姓名，同一轮不重复且不超过数据总数。</p>
                         </div>
                         
                         <div class="mode-item">
                             <span class="mode-number">3</span>
-                            <strong>多人抽取模式</strong>
-                            <p>一次性抽取多个姓名，适合分组或抽奖。</p>
+                            <strong>单人编号抽取</strong>
+                            <p>每次随机抽取 1 个编号。</p>
                         </div>
                         
                         <div class="mode-item">
                             <span class="mode-number">4</span>
-                            <strong>单编号抽取模式</strong>
-                            <p>随机抽取一个编号，保护隐私的同时实现随机选择。</p>
+                            <strong>多人编号抽取</strong>
+                            <p>输入人数后一次抽取多个编号，不超过数据总数。</p>
                         </div>
                         
                         <div class="mode-item">
                             <span class="mode-number">5</span>
-                            <strong>多编号抽取模式</strong>
-                            <p>一次性抽取多个编号，适用于匿名抽样。</p>
+                            <strong>单人性别选择姓名抽取</strong>
+                            <p>默认抽取全部；输入 a 只抽男性，输入 b 只抽女性。</p>
+                        </div>
+                        
+                        <div class="mode-item">
+                            <span class="mode-number">6</span>
+                            <strong>单人动态权重姓名抽取</strong>
+                            <p>按权重抽取；抽中后将该人员权重变为原权重的平方根取整，后续概率降低。</p>
                         </div>
                     </div>
                     
                     <div class="warning">
-                        <strong>通用操作：</strong> 在任何模式下输入"exit"可退出程序，输入"quit"可返回主菜单。
+                        <strong>通用操作：</strong> 在抽取模式中输入 "quit" 返回主菜单，输入 "exit" 退出程序；主菜单输入 "about" 查看版本 1.2.0（2026-08-22）。
                     </div>
                 </div>
             </div>
@@ -449,21 +476,22 @@
             
             <div class="demo-terminal">
                 <div class="demo-line">
-                    <span class="demo-prompt">$</span> <span class="demo-input">python3 ./code/main.py</span>
+                    <span class="demo-prompt">$</span> <span class="demo-input">python3 main.py</span>
                 </div>
                 <div class="demo-line">
                     <br>
-                    1.单人抽取模式<br>
-                    2.性别选择模式<br>
-                    3.多人抽取模式<br>
-                    4.单编号抽取模式<br>
-                    5.多编号抽取模式<br>
+                    1.单人姓名抽取<br>
+                    2.多人姓名抽取<br>
+                    3.单人编号抽取<br>
+                    4.多人编号抽取<br>
+                    5.单人性别选择姓名抽取<br>
+                    6.单人动态权重姓名抽取<br>
                     请输入您选择的模式编号或输入"exit"退出运行: <span class="demo-input">3</span>
                 </div>
                 <div class="demo-line">
                     <br>
-                    请选择抽取人数<br>
-                    或输入"exit"退出运行"quit"重新选择模式: <span class="demo-input">2</span>
+                    请选择抽取人数（直接回车为 1 人）<br>
+                    或输入 "exit" 退出运行、"quit" 返回主菜单: <span class="demo-input">2</span>
                 </div>
                 <div class="demo-line">
                     <br>
@@ -472,7 +500,7 @@
                 </div>
                 <div class="demo-line">
                     请选择抽取人数<br>
-                    或输入"exit"退出运行"quit"重新选择模式: <span class="demo-input">e</span>
+                    或输入 "exit" 退出运行、"quit" 返回主菜单: <span class="demo-input">e</span>
                 </div>
                 <div class="demo-line">
                     <br>
